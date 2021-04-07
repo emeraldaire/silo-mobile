@@ -26,7 +26,7 @@ class PackageList extends Component {
 		super(props);
 		this.state = {
 			isDispatchChecked: false,
-      displayData:{},
+			displayData: {},
 			//packages: PACKAGES,
 			// jobs: JOBS,
 			// selectedPackage: null
@@ -40,37 +40,106 @@ class PackageList extends Component {
 	render() {
 		//console.log(JSON.stringify(this.props.packages.packages));
 		const { navigate } = this.props.navigation;
+
 		const renderPackageListItem = ({ item }) => {
-			return (
-				<ListItem
-					onPress={() => navigate("PackageInfo", { packageId: item.id })}
-					//onPress={() => console.log(item.id)}
-					Component={TouchableScale}
-					friction={90} //
-					tension={100} // These props are passed to the parent component (here TouchableScale)
-					activeScale={0.95}
-					containerStyle={styles.listItemContainer} //
-					linearGradientProps={{
-						//   colors: ['#FFA262', '#DA620B'],
-						//   colors: ['#239f03', '#1a7d00'],
-						//   colors: ['#239f03', '#1a7d00'],
-						// colors: ['#587db9', '#3662a6'],
-						// colors: ['#f39f0c', '#fbb741'],
-						colors: ["#ffa262", "#eca06c"],
-						start: { x: 1, y: 0 },
-						end: { x: 0.2, y: 0 },
-					}}
-				>
-					<Avatar size="large" rounded source={require("./images/orange-avatar-white-bg.png")} />
-					<ListItem.Content>
-						<ListItem.Title style={styles.listItemTitle}>{item.number}</ListItem.Title>
-						<ListItem.Subtitle style={styles.listItemSubtitle}>
-							{item.job} {"\n"}
-							{item.description}
-						</ListItem.Subtitle>
-					</ListItem.Content>
-				</ListItem>
-			);
+			if (item.location === "Dispatched") {
+				return (
+					<ListItem
+						onPress={() => navigate("PackageInfo", { packageId: item.id })}
+						//onPress={() => console.log(item.id)}
+						Component={TouchableScale}
+						friction={90} //
+						tension={100} // These props are passed to the parent component (here TouchableScale)
+						activeScale={0.95}
+						containerStyle={styles.listItemContainer} //
+						linearGradientProps={{
+							//   colors: ['#FFA262', '#DA620B'],
+							//   colors: ['#239f03', '#1a7d00'],
+							//   colors: ['#239f03', '#1a7d00'],
+							// colors: ['#587db9', '#3662a6'],
+							// colors: ['#f39f0c', '#fbb741'],
+							colors: ["#9BEE85", "#60D840"], //GREEN
+							start: { x: 1, y: 0 },
+							end: { x: 0.2, y: 0 },
+						}}
+					>
+						<Avatar size="large" rounded source={require("./images/green-avatar-white-bg.png")} />
+						<ListItem.Content>
+							<ListItem.Title style={styles.listItemTitle}>{item.number}</ListItem.Title>
+							<ListItem.Subtitle style={styles.listItemSubtitle}>
+								{item.job} {"\n"}
+								{item.description}
+							</ListItem.Subtitle>
+						</ListItem.Content>
+					</ListItem>
+				);
+			} 
+      
+      else if(item.location === "Delivered"){
+        return (
+					<ListItem
+						onPress={() => navigate("PackageInfo", { packageId: item.id })}
+						//onPress={() => console.log(item.id)}
+						Component={TouchableScale}
+						friction={90} //
+						tension={100} // These props are passed to the parent component (here TouchableScale)
+						activeScale={0.95}
+						containerStyle={styles.listItemContainer} //
+						linearGradientProps={{
+							//   colors: ['#FFA262', '#DA620B'],
+							//   colors: ['#239f03', '#1a7d00'],
+							//   colors: ['#239f03', '#1a7d00'],
+							// colors: ['#587db9', '#3662a6'],
+							// colors: ['#f39f0c', '#fbb741'],
+							colors: ["#E1011C", "#900818"], //RED
+							start: { x: 1, y: 0 },
+							end: { x: 0.2, y: 0 },
+						}}
+					>
+						<Avatar size="large" rounded source={require("./images/red-avatar-white-bg.png")} />
+						<ListItem.Content>
+							<ListItem.Title style={styles.listItemTitle}>{item.number}</ListItem.Title>
+							<ListItem.Subtitle style={styles.listItemSubtitle}>
+								{item.job} {"\n"}
+								{item.description}
+							</ListItem.Subtitle>
+						</ListItem.Content>
+					</ListItem>
+				);
+      }
+
+      else {
+				return (
+					<ListItem
+						onPress={() => navigate("PackageInfo", { packageId: item.id })}
+						//onPress={() => console.log(item.id)}
+						Component={TouchableScale}
+						friction={90} //
+						tension={100} // These props are passed to the parent component (here TouchableScale)
+						activeScale={0.95}
+						containerStyle={styles.listItemContainer} //
+						linearGradientProps={{
+							//   colors: ['#FFA262', '#DA620B'],
+							//   colors: ['#239f03', '#1a7d00'],
+							//   colors: ['#239f03', '#1a7d00'],
+							// colors: ['#587db9', '#3662a6'],
+							// colors: ['#f39f0c', '#fbb741'],
+							colors: ["#ffa262", "#eca06c"],
+							start: { x: 1, y: 0 },
+							end: { x: 0.2, y: 0 },
+						}}
+					>
+						<Avatar size="large" rounded source={require("./images/orange-avatar-white-bg.png")} />
+						<ListItem.Content>
+							<ListItem.Title style={styles.listItemTitle}>{item.number}</ListItem.Title>
+							<ListItem.Subtitle style={styles.listItemSubtitle}>
+								{item.job} {"\n"}
+								{item.description}
+							</ListItem.Subtitle>
+						</ListItem.Content>
+					</ListItem>
+				);
+			}
 		};
 
 		if (this.props.packages.isLoading) {
@@ -104,6 +173,7 @@ class PackageList extends Component {
 				<FlatList
 					data={this.state.displayData}
 					// data={this.props.packages.packages}
+
 					renderItem={renderPackageListItem}
 					style={styles.flatlistOverview}
 					keyExtractor={(item) => item.id.toString()}
@@ -117,6 +187,12 @@ const styles = StyleSheet.create({
 	flatlistOverview: {
 		margin: 5,
 	},
+
+	// listItemRegularAvatar: {
+	//   size:"large",
+	//   // rounded,
+	//   source:require("./images/orange-avatar-white-bg.png"),
+	// },
 
 	listItemTitle: {
 		color: "white",
